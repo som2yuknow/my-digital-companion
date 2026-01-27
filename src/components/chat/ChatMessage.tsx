@@ -23,14 +23,14 @@ export function ChatMessage({ message, isStreaming }: ChatMessageProps) {
         className={cn(
           'flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center',
           isUser
-            ? 'bg-primary/20 text-primary'
-            : 'bg-gradient-to-br from-primary/30 to-glow-secondary/30 glow-primary'
+            ? 'bg-primary text-primary-foreground'
+            : 'bg-secondary text-foreground'
         )}
       >
         {isUser ? (
           <User className="w-5 h-5" />
         ) : (
-          <Bot className="w-5 h-5 text-primary" />
+          <span className="font-bold font-mono text-sm">J</span>
         )}
       </div>
 
@@ -45,13 +45,13 @@ export function ChatMessage({ message, isStreaming }: ChatMessageProps) {
       >
         <div
           className={cn(
-            'prose prose-invert max-w-none',
-            isUser ? 'prose-p:text-primary-foreground' : 'prose-p:text-foreground',
-            'prose-headings:text-foreground prose-headings:font-semibold',
-            'prose-code:bg-muted prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-primary prose-code:font-mono prose-code:text-sm',
-            'prose-pre:bg-muted prose-pre:border prose-pre:border-border prose-pre:rounded-lg',
-            'prose-a:text-primary prose-a:no-underline hover:prose-a:underline',
-            'prose-strong:text-primary',
+            'prose max-w-none',
+            isUser ? 'prose-invert' : '',
+            'prose-headings:text-inherit prose-headings:font-semibold',
+            'prose-code:bg-secondary prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:font-mono prose-code:text-sm prose-code:text-inherit',
+            'prose-pre:bg-secondary prose-pre:border prose-pre:border-border prose-pre:rounded-lg',
+            'prose-a:text-inherit prose-a:underline',
+            'prose-p:text-inherit prose-li:text-inherit prose-strong:text-inherit',
             isStreaming && !isUser && 'typing-cursor'
           )}
         >

@@ -37,7 +37,7 @@ export function ChatInput({ onSend, isLoading, placeholder = 'Ask me anything...
 
   return (
     <form onSubmit={handleSubmit} className="relative">
-      <div className="glass gradient-border rounded-2xl overflow-hidden transition-all duration-300 focus-within:glow-primary">
+      <div className="glass rounded-2xl overflow-hidden transition-all duration-200 focus-within:ring-2 focus-within:ring-primary/20">
         <textarea
           ref={textareaRef}
           value={input}
@@ -65,8 +65,8 @@ export function ChatInput({ onSend, isLoading, placeholder = 'Ask me anything...
             'flex items-center justify-center',
             'bg-primary text-primary-foreground',
             'transition-all duration-200',
-            'hover:scale-105 hover:glow-primary',
-            'disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none'
+            'hover:opacity-90',
+            'disabled:opacity-30 disabled:cursor-not-allowed'
           )}
         >
           {isLoading ? (

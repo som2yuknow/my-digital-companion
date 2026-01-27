@@ -36,16 +36,14 @@ export function WelcomeScreen({ onSuggestionClick }: WelcomeScreenProps) {
     <div className="flex flex-col items-center justify-center h-full text-center px-4 animate-fade-in">
       {/* Logo */}
       <div className="relative mb-8">
-        <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-primary/30 to-glow-secondary/30 flex items-center justify-center glow-primary animate-pulse-glow">
-          <span className="text-4xl font-bold font-mono text-primary glow-text">N</span>
+        <div className="w-24 h-24 rounded-3xl bg-primary text-primary-foreground flex items-center justify-center shadow-lg">
+          <span className="text-5xl font-bold font-mono">J</span>
         </div>
-        <div className="absolute -inset-4 bg-primary/10 rounded-full blur-2xl -z-10" />
       </div>
 
       {/* Title */}
-      <h1 className="text-4xl font-bold mb-3">
-        <span className="text-primary glow-text">NEXUS</span>
-        <span className="text-foreground ml-2">AI</span>
+      <h1 className="text-4xl font-bold mb-3 text-foreground">
+        JEFF
       </h1>
       
       <p className="text-muted-foreground text-lg mb-8 max-w-md">
@@ -58,11 +56,11 @@ export function WelcomeScreen({ onSuggestionClick }: WelcomeScreenProps) {
           <button
             key={suggestion.title}
             onClick={() => onSuggestionClick(suggestion.prompt)}
-            className="glass gradient-border group rounded-2xl p-5 text-left transition-all duration-300 hover:glow-primary hover:scale-[1.02]"
+            className="glass group rounded-2xl p-5 text-left transition-all duration-200 hover:bg-secondary hover:scale-[1.02]"
           >
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-primary/20 flex items-center justify-center flex-shrink-0 group-hover:bg-primary/30 transition-colors">
-                <suggestion.icon className="w-6 h-6 text-primary" />
+              <div className="w-12 h-12 rounded-xl bg-secondary flex items-center justify-center flex-shrink-0 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                <suggestion.icon className="w-6 h-6" />
               </div>
               <div>
                 <h3 className="font-semibold text-foreground mb-1">{suggestion.title}</h3>

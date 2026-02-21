@@ -1,5 +1,6 @@
+import { useState, useCallback } from 'react';
 import ReactMarkdown from 'react-markdown';
-import { Bot, User } from 'lucide-react';
+import { Bot, User, Volume2, VolumeX } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { Message } from '@/hooks/useChat';
 
@@ -10,11 +11,37 @@ interface ChatMessageProps {
 
 export function ChatMessage({ message, isStreaming }: ChatMessageProps) {
   const isUser = message.role === 'user';
+  const [isSpeaking, setIsSpeaking] = useState(false);
+
+  const toggleSpeak = useCallback(() => {
+    if (isSpeaking) {
+      speechSynthesis.cancel();
+      setIsSpeaking(false);
+      return;
+    }
+
+    // Strip markdown for cleaner speech
+    const plainText = message.content
+      .replace(/```[\s\S]*?```/g, 'code block omitted')
+      .replace(/`([^`]+)`/g, '$1')
+      .replace(/[#*_~\[\]()>]/g, '')
+      .replace(/\n+/g, '. ')
+      .trim();
+
+    const utterance = new SpeechSynthesisUtterance(plainText);
+    utterance.rate = 1;
+    utterance.pitch = 0.9;
+    utterance.onend = () => setIsSpeaking(false);
+    utterance.onerror = () => setIsSpeaking(false);
+
+    speechSynthesis.speak(utterance);
+    setIsSpeaking(true);
+  }, [message.content, isSpeaking]);
 
   return (
     <div
       className={cn(
-        'flex gap-4 animate-fade-in',
+        'flex gap-4 animate-fade-in group',
         isUser ? 'flex-row-reverse' : 'flex-row'
       )}
     >
@@ -57,6 +84,23 @@ export function ChatMessage({ message, isStreaming }: ChatMessageProps) {
         >
           <ReactMarkdown>{message.content}</ReactMarkdown>
         </div>
+
+        {/* Speak button for assistant messages */}
+        {!isUser && !isStreaming && message.content && (
+          <button
+            onClick={toggleSpeak}
+            className={cn(
+              'mt-2 flex items-center gap-1.5 text-xs transition-opacity duration-200',
+              'text-muted-foreground hover:text-foreground',
+              'opacity-0 group-hover:opacity-100',
+              isSpeaking && 'opacity-100 text-foreground'
+            )}
+            title={isSpeaking ? 'Stop speaking' : 'Read aloud'}
+          >
+            {isSpeaking ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5" />}
+            {isSpeaking ? 'Stop' : 'Read aloud'}
+          </button>
+        )}
       </div>
     </div>
   );
